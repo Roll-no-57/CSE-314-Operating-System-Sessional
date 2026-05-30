@@ -1,0 +1,193 @@
+✅ Goal: Add Pseudo-Random Generator in xv6
+📌 You must implement:
+A global seed in kernel space.
+
+Two system calls:
+
+setSeed(int seed) → sets the internal seed.
+
+getRandomNumbers(int n) → returns an array of n pseudo-random numbers: each number is seed++.
+
+📌 Two user commands:
+seed s → sets the seed to s
+
+next n → returns n random numbers: [seed+1, ..., seed+n]
+
+1. 🧠 Kernel: Global Seed
+In kernel/sysproc.c, add:
+
+c
+Copy
+Edit
+int rand_seed = 0; // global seed
+2. 🛠 System Call Implementations
+sys_setSeed:
+c
+Copy
+Edit
+uint64
+sys_setSeed(void) {
+  int s;
+  if (argint(0, &s) < 0)
+    return -1;
+  rand_seed = s;
+  return 0;
+}
+sys_getRandomNumbers:
+c
+Copy
+Edit
+uint64
+sys_getRandomNumbers(void) {
+  int n;
+  uint64 user_dst;
+  
+  if (argint(0, &n) < 0 || n > 15)  // constraint
+    return -1;
+
+  if (argaddr(1, &user_dst) < 0)
+    return -1;
+
+  int nums[15];
+
+  for (int i = 0; i < n; i++)
+    nums[i] = ++rand_seed;
+
+  if (copyout(myproc()->pagetable, user_dst, (char*)nums, sizeof(int) * n) < 0)
+    return -1;
+
+  return 0;
+}
+3. 🧩 Add Syscalls
+In kernel/syscall.h:
+c
+Copy
+Edit
+#define SYS_setSeed 28
+#define SYS_getRandomNumbers 29
+In kernel/syscall.c:
+Add prototypes:
+
+c
+Copy
+Edit
+extern uint64 sys_setSeed(void);
+extern uint64 sys_getRandomNumbers(void);
+Add to syscalls array:
+
+c
+Copy
+Edit
+[SYS_setSeed] = sys_setSeed,
+[SYS_getRandomNumbers] = sys_getRandomNumbers,
+4. 🌐 User-Space Definitions
+user/user.h:
+c
+Copy
+Edit
+int setSeed(int s);
+int getRandomNumbers(int n, int *arr);
+user/usys.S:
+asm
+Copy
+Edit
+SYSCALL(setSeed)
+SYSCALL(getRandomNumbers)
+user/syscall.c or user/seed.c:
+c
+Copy
+Edit
+#include "kernel/types.h"
+#include "user/user.h"
+
+int setSeed(int s) {
+  return syscall(SYS_setSeed, s);
+}
+
+int getRandomNumbers(int n, int *arr) {
+  return syscall(SYS_getRandomNumbers, n, arr);
+}
+5. 👤 User Command: seed.c
+c
+Copy
+Edit
+#include "kernel/types.h"
+#include "user/user.h"
+
+int main(int argc, char *argv[]) {
+  if (argc != 2) {
+    fprintf(2, "Usage: seed <number>\n");
+    exit(1);
+  }
+  int s = atoi(argv[1]);
+  setSeed(s);
+  printf("The seed has been set to %d\n", s);
+  exit(0);
+}
+6. 👤 User Command: next.c
+c
+Copy
+Edit
+#include "kernel/types.h"
+#include "user/user.h"
+
+int main(int argc, char *argv[]) {
+  if (argc != 2) {
+    fprintf(2, "Usage: next <number>\n");
+    exit(1);
+  }
+
+  int n = atoi(argv[1]);
+  if (n > 15 || n <= 0) {
+    fprintf(2, "n must be between 1 and 15\n");
+    exit(1);
+  }
+
+  int nums[15];
+  getRandomNumbers(n, nums);
+
+  printf("Next random numbers are [");
+  for (int i = 0; i < n; i++) {
+    printf("%d", nums[i]);
+    if (i < n - 1) printf(", ");
+  }
+  printf("]\n");
+
+  exit(0);
+}
+7. ⚙️ Add to Makefile
+In Makefile, add to UPROGS:
+
+make
+Copy
+Edit
+  _seed\
+  _next\
+✅ Example I/O (as shown in your image)
+bash
+Copy
+Edit
+$ seed 2
+The seed has been set to 2
+
+$ next 2
+Next random numbers are [3, 4]
+
+$ next 3
+Next random numbers are [5, 6, 7]
+
+$ seed 12
+The seed has been set to 12
+
+$ next 1
+Next random numbers are [13]
+
+$ next 4
+Next random numbers are [14, 15, 16, 17]
+📦 Submission
+bash
+Copy
+Edit
+git add --all
+git diff HEAD > ../<yourStudentID>.patch
+

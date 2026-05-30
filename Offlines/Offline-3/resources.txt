@@ -1,0 +1,839 @@
+/*
+  This program generates random numbers based on the Poisson distribution.
+
+  A Poisson distribution is a probability distribution often used to model the
+  number of times an event occurs within a specified interval, like the number
+  of arrivals at a service point in a given time frame. It has a parameter
+  lambda (λ) which represents the average rate of occurrences in the interval.
+
+  In this code:
+  - We create a Poisson distribution with lambda = 10000.234.
+  - Using a random number generator, we produce a random value that fits
+    this Poisson distribution.
+  - The get_random_number function returns a new random number each time it
+    is called, based on the specified Poisson distribution.
+  - We then call this function 10 times in a loop to display 10 random numbers.
+
+  This example demonstrates how to use the C++ Standard Library to generate
+  Poisson-distributed random numbers.
+
+  Compilation:
+    g++ poisson_random_number_generator.cpp -o a.out
+
+  Usage:
+    ./a.out
+
+  Prepared by: Nafis Tahmid (1905002), Date: 10 November 2024
+*/
+
+#include <iostream>
+#include <random>
+
+// Function to generate a Poisson-distributed random number
+int get_random_number() {
+  // Creates a random device for non-deterministic random number generation
+  std::random_device rd;
+  // Initializes a random number generator using the random device
+  std::mt19937 generator(rd());
+
+  // Lambda value for the Poisson distribution
+  double lambda = 10000.234;
+
+  // Defines a Poisson distribution with the given lambda
+  std::poisson_distribution<int> poissonDist(lambda);
+
+  // Generates and returns a random number based on the Poisson distribution
+  return poissonDist(generator);
+}
+
+int main() {
+  // Loop to print 10 Poisson-distributed random numbers
+  for (int i = 0; i < 10; i++) {
+    std::cout << get_random_number()
+              << std::endl; // Output each generated number
+  }
+  return 0;
+}
+
+/*
+  Prepared by: Nafis Tahmid (1905002), Date: 10 November 2024
+*/
+
+#include<stdio.h>
+#include<pthread.h>
+#include<semaphore.h>
+#include<queue>
+using namespace std;
+
+
+//semaphore to control sleep and wake up
+sem_t empty;
+sem_t full;
+queue<int> q;
+pthread_mutex_t lock;
+
+
+void init_semaphore()
+{
+	sem_init(&empty,0,5);
+	sem_init(&full,0,0);
+	pthread_mutex_init(&lock,0);
+}
+
+void * ProducerFunc(void * arg)
+{	
+	printf("%s\n",(char*)arg);
+	int i;
+	for(i=1;i<=10;i++)
+	{
+		sem_wait(&empty);
+
+		pthread_mutex_lock(&lock);		
+		sleep(1);	
+		q.push(i);
+		printf("producer produced item %d\n",i);
+		
+		pthread_mutex_unlock(&lock);
+	
+		sem_post(&full);
+	}
+}
+
+void * ConsumerFunc(void * arg)
+{
+	printf("%s\n",(char*)arg);
+	int i;
+	for(i=1;i<=10;i++)
+	{	
+		sem_wait(&full);
+ 		
+		pthread_mutex_lock(&lock);
+			
+		sleep(1);
+		int item = q.front();
+		q.pop();
+		printf("consumer consumed item %d\n",item);	
+
+		pthread_mutex_unlock(&lock);
+		
+		sem_post(&empty);
+	}
+}
+
+
+
+
+
+int main(void)
+{	
+	pthread_t thread1;
+	pthread_t thread2;
+	
+	init_semaphore();
+	
+	char * message1 = "i am producer";
+	char * message2 = "i am consumer";	
+	
+	pthread_create(&thread1,NULL,ProducerFunc,(void*)message1 );
+	pthread_create(&thread2,NULL,ConsumerFunc,(void*)message2 );
+
+	
+	while(1);
+	return 0;
+}
+#include<stdio.h>
+#include<pthread.h>
+#include<semaphore.h>
+#include<queue>
+
+using namespace std;
+
+
+//semaphore to control sleep and wake up
+sem_t empty;
+sem_t full;
+queue<int> q;
+
+
+void init_semaphore()
+{
+	sem_init(&empty,0,5);
+	sem_init(&full,0,0);
+}
+
+void * ProducerFunc(void * arg)
+{	
+	printf("%s\n",(char*)arg);
+	int i;
+	for(i=1;i<=10;i++)
+	{
+		sem_wait(&empty);
+
+			
+		sleep(1);
+		
+		q.push(i);
+		printf("producer produced item %d\n",i);
+		
+		
+	
+		sem_post(&full);
+	}
+}
+
+void * ConsumerFunc(void * arg)
+{
+	printf("%s\n",(char*)arg);
+	int i;
+	for(i=1;i<=10;i++)
+	{	
+		sem_wait(&full);
+ 		
+		sleep(1);
+		
+
+		int item = q.front();
+		q.pop();
+		printf("consumer consumed item %d\n",item);	
+
+			
+		sem_post(&empty);
+	}
+}
+
+
+
+
+
+int main(void)
+{	
+	pthread_t thread1;
+	pthread_t thread2;
+	
+	init_semaphore();
+	
+	char * message1 = "i am producer";
+	char * message2 = "i am consumer";	
+	
+	pthread_create(&thread1,NULL,ProducerFunc,(void*)message1 );
+	pthread_create(&thread2,NULL,ConsumerFunc,(void*)message2 );
+
+	while(1);
+	return 0;
+}
+1. poisson_random_number_generator.cpp
+    - just a simple random number generator from poisson distribution
+2. simple_sum_calculation.cpp
+    -  a simple sum calculation for a big range of numbers by dividing the job into multiple threads. You can understand the importance of thread joining (explicitly written in code comments, see line 69) and how to manage variables (the partial sum in this case) in case of multi-threaded programming
+3. student_report_printing.cpp
+    - combines the previous two codes concept and simulates students starting to write a report, writing for a span of time (randomly assigned for each student), then arriving at the print station after they are finished.
+
+
+For others, file names are quite explanatory
+#include<stdio.h>
+#include<pthread.h>
+#include<semaphore.h>
+
+sem_t bin_sem;
+pthread_mutex_t mtx;
+char message[100];
+
+
+
+void * thread_function(void * arg)
+{	
+	int x;
+	char message2[10];
+	while(1)
+	{	
+		printf("thread2:waiting..\n");
+		//pthread_mutex_lock(&mtx);
+		sem_wait(&bin_sem);		
+		printf("hi i am the new thread waiting inside critical..\n");
+		scanf("%s",message);
+		printf("You entered:%s\n",message);
+		sem_post(&bin_sem);
+		//pthread_mutex_unlock(&mtx);
+	
+	}
+	
+}
+
+int main(void)
+{
+	pthread_t athread;
+	pthread_attr_t ta;
+	char message2[10];
+	int x;
+	sem_init(&bin_sem,0,1);
+	pthread_mutex_init(&mtx,NULL);
+	
+	pthread_attr_init(&ta);
+	pthread_attr_setschedpolicy(&ta,SCHED_RR);	                                                                                                                                                                                                     
+
+	pthread_create(&athread,&ta,thread_function,NULL);
+	while(1)
+	{	
+		//pthread_mutex_lock(&mtx);
+		printf("main waiting..\n");
+		sem_wait(&bin_sem);	
+		printf("hi i am the main thread waiting inside critical..\n");
+		scanf("%s",message);
+		printf("You entered:%s\n",message);
+		sem_post(&bin_sem);
+		//pthread_mutex_unlock(&mtx);
+	}
+	sleep(5);		
+}
+/*
+  This program calculates the sum of all numbers from 1 to N using multiple
+  threads. Each thread is responsible for summing a specific range of numbers,
+  and the final sum is obtained by combining the partial sums from each thread.
+
+  How it works:
+    - N: The upper limit of the range (1 to N).
+    - M: The number of threads to use for the calculation.
+    - Each thread calculates the sum of a portion of the range, storing its
+  result in a variable.
+    - The main thread waits for all threads to finish, then combines their
+  results to get the total sum.
+
+  Compilation:
+    g++ -pthread simple_sum_calculation.cpp -o a.out
+
+  Usage:
+    ./a.out
+
+  Prepared by: Nafis Tahmid (1905002), Date: 10 November 2024
+*/
+
+#include <pthread.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+// Class to hold the data range and partial sum for each thread
+class ThreadData {
+public:
+  long start;    // Start of the range for the thread
+  long end;      // End of the range for the thread
+  long long sum; // Sum computed by the thread in its range
+};
+
+// Function that each thread runs to compute the sum in its range
+void *computeSum(void *arg) {
+  ThreadData *data = (ThreadData *)arg;
+  data->sum = 0; // Initialize the thread's sum to zero
+  for (int i = data->start; i <= data->end; i++) {
+    data->sum += i; // Add each number in the range to the thread's sum
+  }
+  return NULL;
+}
+
+int main(void) {
+  long N = 2441139;  // The upper limit for summing numbers :-)
+  long M = 10;       // Number of threads
+  long long sum = 0; // Variable to store the final sum
+
+  // Array of threads
+  pthread_t threads[M];
+  // Array to store data (range and partial sum) for each thread
+  ThreadData data[M];
+
+  // Create M threads to compute parts of the sum
+  for (int i = 0; i < M; i++) {
+    // Define the range for each thread based on thread index
+    data[i].start = i * N / M + 1;
+    data[i].end = (i + 1) * N / M;
+    // Create the thread, passing the thread's data as an argument
+    pthread_create(&threads[i], NULL, computeSum, (void *)&data[i]);
+  }
+
+  // Join M threads to ensure main thread waits for all threads to finish
+  // and accumulate the partial sums, otherwise the main thread may finish
+  // before the threads and the sum will be incorrect
+  for (int i = 0; i < M; i++) {
+    // if the following line is commented, the program may output diffferent sum
+    // in each run with same N
+    pthread_join(threads[i], NULL); // Wait for each thread to finish
+    sum += data[i].sum;             // Accumulate the sum from each thread
+  }
+
+  // Print the final computed sum
+  printf("The sum of numbers between 1 to %ld is %lld\n", N, sum);
+
+  return 0;
+}
+
+/*
+  Prepared by: Nafis Tahmid (1905002), Date: 10 November 2024
+*/
+
+#include<stdio.h>
+#include<pthread.h>
+#include<stdlib.h>
+
+
+void * threadFunc1(void * arg)
+{
+	int i;
+	for(i=1;i<=5;i++)
+	{
+		printf("%s\n",(char*)arg);
+		sleep(1);
+	}
+}
+
+void * threadFunc2(void * arg)
+{
+	int i;
+	for(i=1;i<=5;i++)
+	{
+		printf("%s\n",(char*)arg);
+		sleep(1);
+	}
+}
+
+
+
+
+
+int main(void)
+{	
+	pthread_t thread1;
+	pthread_t thread2;
+	
+	char * message1 = "i am thread 1";
+	char * message2 = "i am thread 2";	
+	
+	pthread_create(&thread1,NULL,threadFunc1,(void*)message1 );
+	pthread_create(&thread2,NULL,threadFunc2,(void*)message2 );
+
+	while(1);
+	return 0;
+}
+/*
+  This program simulates a group of students completing and printing their
+  reports. Each student has a random writing time before heading to a print
+  station to log their arrival. The program reads the number of students from an
+  input file, and writes each student's arrival time at the print station to an
+  output file.
+
+  Key points:
+    - Each student has a unique ID and a random writing time between 1 and
+  MAX_WRITING_TIME seconds.
+    - Students "write" their reports, then arrive at the print station and log
+  their arrival time.
+    - Student actions are handled using threads, and each student's arrival is
+  recorded in a thread-safe manner to prevent log mixing.
+
+  Compilation:
+    g++ -pthread student_report_printing.cpp -o a.out
+
+  Usage:
+    ./a.out <input_file> <output_file>
+
+  Input:
+    The input file should contain the number of students (N).
+    Example of input file (in.txt):
+    10
+
+  Output:
+    Each student's arrival time at the print station is logged in the output
+  file.
+
+  Prepared by: Nafis Tahmid (1905002), Date: 10 November 2024
+*/
+
+#include <chrono>
+#include <fstream>
+#include <iostream>
+#include <pthread.h>
+#include <random>
+#include <unistd.h>
+#include <vector>
+
+// Constants
+#define MAX_WRITING_TIME 20   // Maximum time a student can spend "writing"
+#define WALKING_TO_PRINTER 10 // Maximum time taken to walk to the printer
+#define SLEEP_MULTIPLIER 1000 // Multiplier to convert seconds to milliseconds
+
+int N; // Number of students
+
+// Mutex lock for output to file for avoiding interleaving
+pthread_mutex_t output_lock;
+
+// Timing functions
+auto start_time = std::chrono::high_resolution_clock::now();
+
+/**
+ * Get the elapsed time in milliseconds since the start of the simulation.
+ * @return The elapsed time in milliseconds.
+ */
+long long get_time() {
+  auto end_time = std::chrono::high_resolution_clock::now();
+  auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+      end_time - start_time);
+  long long elapsed_time_ms = duration.count();
+  return elapsed_time_ms;
+}
+
+// Function to generate a Poisson-distributed random number
+int get_random_number() {
+  std::random_device rd;
+  std::mt19937 generator(rd());
+
+  // Lambda value for the Poisson distribution
+  double lambda = 10000.234;
+  std::poisson_distribution<int> poissonDist(lambda);
+  return poissonDist(generator);
+}
+
+enum student_state { WRITING_REPORT, WAITING_FOR_PRINTING };
+
+/**
+ * Class representing a student in the simulation.
+ */
+class Student {
+public:
+  int id;              // Unique ID for each student
+  int writing_time;    // Time student spends "writing"
+  student_state state; // Current state of the student (writing or waiting)
+
+  /**
+   * Constructor to initialize a student with a unique ID and random writing
+   * time.
+   * @param id Student's ID.
+   */
+  Student(int id) : id(id), state(WRITING_REPORT) {
+    writing_time = get_random_number() % MAX_WRITING_TIME + 1;
+  }
+};
+
+std::vector<Student> students; // Vector to store all students
+
+// uses mutex lock to write output to avoid interleaving
+void write_output(std::string output) {
+  pthread_mutex_lock(&output_lock);
+  std::cout << output;
+  pthread_mutex_unlock(&output_lock);
+}
+
+/**
+ * Simulate arriving at the printing station and log the time.
+ */
+void start_printing(Student *student) {
+  student->state = WAITING_FOR_PRINTING;
+
+  write_output("Student " + std::to_string(student->id) +
+               " has arrived at the print station at " +
+               std::to_string(get_time()) + " ms\n");
+}
+
+/**
+ * Initialize students and set the start time for the simulation.
+ */
+void initialize() {
+  for (int i = 1; i <= N; i++) {
+    students.emplace_back(Student(i));
+  }
+
+  // Initialize mutex lock
+  pthread_mutex_init(&output_lock, NULL);
+
+  start_time = std::chrono::high_resolution_clock::now(); // Reset start time
+}
+
+/**
+ * Thread function for student activities.
+ * Simulates the student's report writing and reaching the print station.
+ * @param arg Pointer to a Student object.
+ */
+void *student_activities(void *arg) {
+  Student *student = (Student *)arg;
+
+  write_output("Student " + std::to_string(student->id) +
+               " started writing for " + std::to_string(student->writing_time) +
+               " ms at " + std::to_string(get_time()) + " ms\n");
+  usleep(student->writing_time * SLEEP_MULTIPLIER); // Simulate writing time
+  write_output("Student " + std::to_string(student->id) +
+               " finished writing at " + std::to_string(get_time()) + " ms\n");
+
+  usleep((get_random_number() % WALKING_TO_PRINTER + 1) *
+         SLEEP_MULTIPLIER); // Simulate walking to printer
+  start_printing(student);  // Student reaches the printing station
+
+  return NULL;
+}
+
+int main(int argc, char *argv[]) {
+  if (argc != 3) {
+    std::cout << "Usage: ./a.out <input_file> <output_file>" << std::endl;
+    return 0;
+  }
+
+  // File handling for input and output redirection
+  std::ifstream inputFile(argv[1]);
+  std::streambuf *cinBuffer = std::cin.rdbuf(); // Save original std::cin buffer
+  std::cin.rdbuf(inputFile.rdbuf()); // Redirect std::cin to input file
+
+  std::ofstream outputFile(argv[2]);
+  std::streambuf *coutBuffer = std::cout.rdbuf(); // Save original cout buffer
+  std::cout.rdbuf(outputFile.rdbuf()); // Redirect cout to output file
+
+  // Read number of students from input file
+  std::cin >> N;
+
+  pthread_t student_threads[N]; // Array to hold student threads
+
+  initialize(); // Initialize students and mutex lock
+
+  int remainingStudents = N;
+  bool started[N];
+
+  // start student threads randomly
+  while (remainingStudents) {
+    int randomStudent = get_random_number() % N;
+    if (!started[randomStudent]) {
+      started[randomStudent] = true;
+      pthread_create(&student_threads[randomStudent], NULL, student_activities,
+                     &students[randomStudent]);
+      remainingStudents--;
+      usleep(1000); // sleep for 1 ms
+      if (get_time() >
+          7000) { // if more than 7 seconds is passed, initialize the rest
+        break;
+      }
+    }
+  }
+
+  // after waiting for 7(our choice) secs, start the remaining student threadss
+  for (int i = 0; i < N; i++) {
+    if (!started[i]) {
+      pthread_create(&student_threads[i], NULL, student_activities,
+                     &students[i]);
+    }
+  }
+
+  // Wait for all student threads to finish
+  for (int i = 0; i < N; i++) {
+    pthread_join(student_threads[i], NULL);
+  }
+
+  // Restore std::cin and cout to their original states (console)
+  std::cin.rdbuf(cinBuffer);
+  std::cout.rdbuf(coutBuffer);
+
+  return 0;
+}
+
+/*
+  Prepared by: Nafis Tahmid (1905002), Date: 10 November 2024
+*/
+
+
+CSE 314: Operating System Sessional
+ January 2025
+Description
+Assignment declared
+Change Log
+Updated By
+MSD & NTD
+Timestamp
+30 May, 2025, 11:55 PM
+Last compiled on May 30, 2025 at
+ 23:16 GMT+6
+1
+January 2025 CSE 314: Operating System Sessional
+Assignment 3: IPC
+Department of Computer Science and Engineering
+Bangladesh University of Engineering and Technology
+May 2025
+1
+ Scenario: The Shadows of Small Heath
+The year is 1920, and Birmingham’s industrial landscape presents a backdrop of constant activity
+and underlying tension. In the working-class district of Small Heath, where factory smoke mingles
+with the everyday bustle of urban life, the Peaky Blinders have established an extensive intelligence
+operation. The narrow cobblestone streets echo with the sounds of horse-drawn carts and the steady
+rhythm of industrial machinery, while the perpetual haze from coal-burning factories creates an
+atmosphere of both productivity and concealment.
+Tommy Shelby has designed a sophisticated document distribution system that requires the co-
+ordination of N operatives, each assigned a numerical identifier from 1 to N. The operation depends
+on precise synchronization among these operatives, who work in predetermined groups to ensure
+operational security. The consequences of failure extend beyond mere disappointment—discovery
+could result in serious legal repercussions or violent retaliation from competing criminal organiza-
+tions seeking to establish their own dominance in Birmingham’s underworld.
+The organizational structure divides operatives into units of exactly M members each (where
+N = cM, with c representing a positive integer). Group formation follows a systematic approach:
+when M equals 3, operatives 1, 2, and 3 constitute the first unit or group, operatives 4, 5, and
+6 form the second unit, and this pattern continues throughout the operation. Each unit must
+successfully complete a two-phase process to accomplish their mission of distributing intelligence
+documents throughout Birmingham’s extensive underground network.
+The operation progresses through two distinct phases, each presenting unique challenges and
+requiring careful coordination. Within each unit, the operative holding the highest identification
+number assumes leadership responsibilities, bearing ultimate accountability for the group’s success
+and the safety of fellow members.
+Document Recreation Phase: Each operative independently visits one of several clandes-
+tine printing facilities strategically located throughout Birmingham’s industrial quarter. Using
+specialized typewriting equipment, they carefully recreate their assigned portion of the intelligence
+document. Upon completion, they deliver their work to their designated group leader, maintaining
+the security principle that no individual operative possesses complete information.
+Logbook Entry Phase: Following successful collection of all document portions from their
+unit members, group leaders proceed to the central intelligence hub. This facility, housed within an
+unremarkable building that serves as the operational nerve center, maintains the master logbook.
+Leaders must record their completed operation in this heavily secured document, which tracks all
+intelligence activities across the Birmingham network.
+2
+CSE 314: Operating System Sessional
+ January 2025
+2
+ Operational Challenges and Synchronization
+The execution of this operation faces several practical constraints that require careful management
+and coordination among all participants.
+Challenge #1: The operation has access to only four typewriting stations (TS1, TS2, TS3,
+TS4) distributed across Birmingham’s industrial quarter. These stations are concealed within le-
+gitimate business establishments to avoid detection. Station assignment follows a specific protocol:
+operatives are assigned to stations based on the formula (operative ID mod 4 + 1). For example,
+operative 4 uses TS1, operative 1 uses TS2, and so forth. Operatives do not arrive simultaneously
+due to various factors including surveillance patterns, patrol schedules, and other operational con-
+siderations. When an operative arrives at an occupied station, they must wait, which increases
+exposure risk with each passing moment.
+Challenge #2: The central intelligence hub maintains a single master logbook that serves
+as the authoritative record of all operations. Only one group leader may make entries at any
+given time, as simultaneous writing would create inconsistencies that could compromise the entire
+operation’s security. However, multiple personnel may review existing entries while no writing is
+taking place, allowing for continuous information flow essential to ongoing operations.
+3
+ Operational Tasks
+3.1
+ Task #1: Station Assignment Protocol
+When an operative arrives at their assigned typewriting station and finds it occupied, they must
+wait in a nearby concealed location. Upon completing their typewriting work, operatives follow a
+communication protocol to signal station availability. The departing operative alerts all operatives
+who may be waiting at the concealed location for that specific station, ensuring efficient resource
+utilization and minimal exposure time.
+Your objective is to implement this coordination system, ensuring that no operative experiences
+indefinite waiting while maintaining operational security through proper synchronization mecha-
+nisms.
+3.2
+ Task #2: Intelligence Hub Access Control
+After group leaders collect document portions from every member of their unit, they proceed to
+the central intelligence hub to record their operation in the master logbook. They may only make
+entries when no other personnel are reading or writing in the logbook. Two intelligence staff
+members monitor the logbook continuously: one provides periodic operational progress reports to
+Thomas Shelby, while another maintains status updates on information boards. This scenario must
+be implemented using reader-writer problem principles, where writers must wait until all readers
+complete their current activities.
+4
+ Implementation Requirements
+• No Busy Waiting: Continuous availability checking (busy waiting) is prohibited throughout
+the implementation.
+• Randomized Arrival: Generate all operatives simultaneously but introduce random delays
+before they begin the document recreation phase to simulate realistic operational conditions
+and varying arrival times.
+Last compiled on May 30, 2025 at
+ 23:16 GMT+6
+3
+CSE 314: Operating System Sessional
+ January 2025
+• Poisson Distribution: Use Poisson distribution to generate random timing values. Select
+an appropriate inter-arrival rate that reflects realistic operational constraints.
+• Timing Implementation: Implement operation timing using sleep functions. The relative
+time requirements for each operation are specified in the provided table.
+• Logbook Management: The master logbook tracks the total number of completed opera-
+tions using a shared variable (initially set to 0). Implement different random intervals for the
+two intelligence staff members who read the logbook. For example, Staff 1 might read at time
+1, Staff 2 begins reading at time 3 while Staff 1 continues reading, then Staff 1 reads again
+at time 8. Readers should remain active in the system from initialization, using appropriate
+randomness to demonstrate concurrent access patterns.
+• Detailed Logging: Print comprehensive information about each operative’s actions, includ-
+ing precise timing information. Sample output formats are provided to demonstrate expected
+formatting standards.
+Operation
+Document Recreation
+Logbook Entry
+Relative Time Unit
+x
+y
+4.1
+ Input/Output Specifications
+• You will take input from a file and give output in an output file
+• Input file format:
+N M
+x y
+Where N = Number of operatives, M = Unit size, x, y = relative time units
+5
+ Sample Execution
+Input:
+15 5
+10 3
+Example Output (Timings may not be same):
+Operative 4 has arrived at typewriting station at time 4
+Operative 2 has arrived at typewriting station at time 5
+Operative 1 has arrived at typewriting station at time 7
+Operative 3 has arrived at typewriting station at time 8
+Operative 6 has arrived at typewriting station at time 10
+Operative 7 has arrived at typewriting station at time 10
+Operative 5 has arrived at typewriting station at time 12
+Operative 8 has arrived at typewriting station at time 14
+...
+Last compiled on May 30, 2025 at
+ 23:16 GMT+6
+4
+CSE 314: Operating System Sessional
+ January 2025
+Intelligence Staff 1 began reviewing logbook at time 13. Operations completed = 0
+Operative 4 has completed document recreation at time 14
+Intelligence Staff 2 began reviewing logbook at time 17. Operations completed = 0
+...
+Unit 1 has completed document recreation phase at time 60
+...
+Intelligence Staff 2 began reviewing logbook at time 78. Operations completed = 0
+Intelligence Staff 1 began reviewing logbook at time 82. Operations completed = 0
+...
+Unit 2 has completed intelligence distribution at time 95
+Intelligence Staff 2 began reviewing logbook at time 98. Operations completed = 1
+The timestamps and sequence demonstrate the coordination required for successful operation
+execution within the related setting.
+6
+Evaluation Criteria
+Task
+Task 1
+Task 2
+Documentation
+Subtask
+Randomized operative arrival at
+stations
+Station availability detection without
+busy waiting
+Proper notification of all waiting
+operatives
+Implementation of reader-writer
+problem with readers having higher
+priority
+Printing moves of operatives/groups
+Timing information integration
+Random delays using sleep to simulate
+realistic scenarios
+7
+ Submission Protocol
+• Create a directory named with your 7-digit student ID (2105XXX)
+• Place all source code within this directory
+• Compress the folder and rename to 2105XXX.zip
+• Submit the compressed archive
+Deadline: June 21, 2025, 11:45 PM
+8
+ Academic Integrity
+• Plagiarism can result in complete -100%
+• Complete all work independently
+Marks
+15
+25
+15
+25
+5
+10
+5
+Last compiled on May 30, 2025 at
+ 23:16 GMT+6
+5

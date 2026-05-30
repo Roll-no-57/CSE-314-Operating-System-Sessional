@@ -1,0 +1,55 @@
+Successfully initialized Operatives.
+Starting Intelligence Staff monitoring...
+Intelligence Staff 1 began reviewing logbook at time 50. Operations completed = 0
+Intelligence Staff 2 began reviewing logbook at time 100. Operations completed = 0
+Operative 8 has arrived at typewriting station 1 at time 101
+Operative 9 has arrived at typewriting station 2 at time 101
+Operative 8 has completed document recreation at time 111 at station 1
+Operative 9 has completed document recreation at time 111 at station 2
+Operative 11 has arrived at typewriting station 4 at time 202
+Operative 12 has arrived at typewriting station 1 at time 202
+Operative 14 has arrived at typewriting station 3 at time 202
+Operative 11 has completed document recreation at time 212 at station 4
+Operative 12 has completed document recreation at time 212 at station 1
+Operative 14 has completed document recreation at time 212 at station 3
+Operative 15 has arrived at typewriting station 4 at time 212
+Operative 15 has completed document recreation at time 222 at station 4
+Operative 2 has arrived at typewriting station 3 at time 301
+Operative 1 has arrived at typewriting station 2 at time 301
+Operative 3 has arrived at typewriting station 4 at time 301
+Operative 4 has arrived at typewriting station 1 at time 301
+Operative 3 has completed document recreation at time 311 at station 4
+Operative 1 has completed document recreation at time 311 at station 2
+Operative 2 has completed document recreation at time 311 at station 3
+Operative 4 has completed document recreation at time 311 at station 1
+Operative 6 has arrived at typewriting station 3 at time 312
+Operative 6 has completed document recreation at time 322 at station 3
+Operative 10 has arrived at typewriting station 3 at time 322
+Operative 10 has completed document recreation at time 332 at station 3
+Operative 5 has arrived at typewriting station 2 at time 401
+Operative 7 has arrived at typewriting station 4 at time 401
+Operative 7 has completed document recreation at time 412 at station 4
+Operative 5 has completed document recreation at time 412 at station 2
+Unit 2 has completed document recreation phase at time 412
+Operative 13 has arrived at typewriting station 2 at time 412
+Unit 1 has completed document recreation phase at time 412
+Operative 13 has completed document recreation at time 422 at station 2
+Unit 3 has completed document recreation phase at time 423
+Intelligence Staff 2 began reviewing logbook at time 487. Operations completed = 0
+Intelligence Staff 1 began reviewing logbook at time 534. Operations completed = 0
+Unit 2 leader began logbook entry at time 889
+Unit 2 has completed intelligence distribution at time 892
+Unit 3 leader began logbook entry at time 916
+Unit 3 has completed intelligence distribution at time 919
+Intelligence Staff 1 began reviewing logbook at time 1020. Operations completed = 2
+Unit 1 leader began logbook entry at time 1027
+Unit 1 has completed intelligence distribution at time 1030
+Intelligence Staff 2 began reviewing logbook at time 1122. Operations completed = 3
+Intelligence Staff 1 began reviewing logbook at time 1412. Operations completed = 3
+Intelligence Staff 2 began reviewing logbook at time 1671. Operations completed = 3
+Intelligence Staff 1 began reviewing logbook at time 1733. Operations completed = 3
+Intelligence Staff 1 began reviewing logbook at time 2061. Operations completed = 3
+Intelligence Staff 2 began reviewing logbook at time 2333. Operations completed = 3
+Intelligence Staff 1 began reviewing logbook at time 2551. Operations completed = 3
+Intelligence Staff 2 began reviewing logbook at time 2692. Operations completed = 3
+Intelligence Staff 1 began reviewing logbook at time 3015. Operations completed = 3

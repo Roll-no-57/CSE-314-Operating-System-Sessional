@@ -1,0 +1,98 @@
+Operative 10 has arrived at typewriting station TS3 at time 1
+Intelligent staff 2 began reviewing the logbook at time 1 Operations completed: 0
+Intelligent staff 1 began reviewing the logbook at time 2 Operations completed: 0
+Intelligent staff 2 finished reviewing the logbook at time 3 Operations completed: 0
+Operative 9 has arrived at typewriting station TS2 at time 4
+Intelligent staff 1 finished reviewing the logbook at time 4 Operations completed: 0
+Operative 8 has arrived at typewriting station TS1 at time 5
+Intelligent staff 2 began reviewing the logbook at time 5 Operations completed: 0
+Intelligent staff 1 began reviewing the logbook at time 6 Operations completed: 0
+Intelligent staff 2 finished reviewing the logbook at time 7 Operations completed: 0
+Intelligent staff 1 finished reviewing the logbook at time 8 Operations completed: 0
+Intelligent staff 2 began reviewing the logbook at time 9 Operations completed: 0
+Intelligent staff 1 began reviewing the logbook at time 9 Operations completed: 0
+Operative 10 has completed document recreation at TS3 at time 11
+Operative 14 has arrived at typewriting station TS3 at time 8
+Intelligent staff 2 finished reviewing the logbook at time 12 Operations completed: 0
+Intelligent staff 1 finished reviewing the logbook at time 12 Operations completed: 0
+Operative 9 has completed document recreation at TS2 at time 14
+Intelligent staff 2 began reviewing the logbook at time 14 Operations completed: 0
+Intelligent staff 1 began reviewing the logbook at time 14 Operations completed: 0
+Operative 8 has completed document recreation at TS1 at time 15
+Intelligent staff 1 finished reviewing the logbook at time 16 Operations completed: 0
+Intelligent staff 2 finished reviewing the logbook at time 17 Operations completed: 0
+Operative 1 has arrived at typewriting station TS2 at time 18
+Operative 4 has arrived at typewriting station TS1 at time 18
+Intelligent staff 2 began reviewing the logbook at time 18 Operations completed: 0
+Intelligent staff 1 began reviewing the logbook at time 18 Operations completed: 0
+Operative 7 has arrived at typewriting station TS4 at time 19
+Intelligent staff 1 finished reviewing the logbook at time 20 Operations completed: 0
+Operative 14 has completed document recreation at TS3 at time 21
+Operative 6 has arrived at typewriting station TS3 at time 9
+Intelligent staff 2 finished reviewing the logbook at time 21 Operations completed: 0
+Intelligent staff 1 began reviewing the logbook at time 21 Operations completed: 0
+Intelligent staff 1 finished reviewing the logbook at time 23 Operations completed: 0
+Intelligent staff 2 began reviewing the logbook at time 24 Operations completed: 0
+Intelligent staff 2 finished reviewing the logbook at time 25 Operations completed: 0
+Intelligent staff 1 began reviewing the logbook at time 25 Operations completed: 0
+Intelligent staff 2 began reviewing the logbook at time 30 Operations completed: 0
+Intelligent staff 1 finished reviewing the logbook at time 30 Operations completed: 0
+Operative 1 has completed document recreation at TS2 at time 31
+Operative 4 has completed document recreation at TS1 at time 31
+Operative 5 has arrived at typewriting station TS2 at time 19
+Operative 12 has arrived at typewriting station TS1 at time 20
+Intelligent staff 2 finished reviewing the logbook at time 31 Operations completed: 0
+Operative 7 has completed document recreation at TS4 at time 32
+Operative 3 has arrived at typewriting station TS4 at time 25
+Intelligent staff 1 began reviewing the logbook at time 33 Operations completed: 0
+Operative 6 has completed document recreation at TS3 at time 34
+Operative 2 has arrived at typewriting station TS3 at time 33
+Unit 2 with Operative id 10 has completed document recreation phase at time 34
+Intelligent staff 2 began reviewing the logbook at time 34 Operations completed: 0
+Intelligent staff 1 finished reviewing the logbook at time 34 Operations completed: 0
+Intelligent staff 2 finished reviewing the logbook at time 36 Operations completed: 0
+Unit 2 with leader Operative id 10 has completed intelligent distribution at time 39
+Intelligent staff 1 began reviewing the logbook at time 39 Operations completed: 1
+Intelligent staff 2 began reviewing the logbook at time 39 Operations completed: 1
+Intelligent staff 1 finished reviewing the logbook at time 40 Operations completed: 1
+Operative 5 has completed document recreation at TS2 at time 41
+Operative 12 has completed document recreation at TS1 at time 41
+Operative 13 has arrived at typewriting station TS2 at time 23
+Operative 3 has completed document recreation at TS4 at time 42
+Operative 15 has arrived at typewriting station TS4 at time 32
+Intelligent staff 2 finished reviewing the logbook at time 42 Operations completed: 1
+Intelligent staff 1 began reviewing the logbook at time 43 Operations completed: 1
+Intelligent staff 2 began reviewing the logbook at time 43 Operations completed: 1
+Operative 2 has completed document recreation at TS3 at time 44
+Unit 1 with Operative id 5 has completed document recreation phase at time 44
+Intelligent staff 1 finished reviewing the logbook at time 44 Operations completed: 1
+Intelligent staff 2 finished reviewing the logbook at time 45 Operations completed: 1
+Intelligent staff 1 began reviewing the logbook at time 45 Operations completed: 1
+Intelligent staff 2 began reviewing the logbook at time 46 Operations completed: 1
+Intelligent staff 1 finished reviewing the logbook at time 48 Operations completed: 1
+Intelligent staff 2 finished reviewing the logbook at time 49 Operations completed: 1
+Operative 13 has completed document recreation at TS2 at time 51
+Operative 15 has completed document recreation at TS4 at time 52
+Operative 11 has arrived at typewriting station TS4 at time 33
+Unit 1 with leader Operative id 5 has completed intelligent distribution at time 52
+Intelligent staff 1 began reviewing the logbook at time 52 Operations completed: 2
+Intelligent staff 2 began reviewing the logbook at time 52 Operations completed: 2
+Intelligent staff 1 finished reviewing the logbook at time 54 Operations completed: 2
+Intelligent staff 2 finished reviewing the logbook at time 54 Operations completed: 2
+Intelligent staff 1 began reviewing the logbook at time 56 Operations completed: 2
+Intelligent staff 2 began reviewing the logbook at time 56 Operations completed: 2
+Intelligent staff 2 finished reviewing the logbook at time 58 Operations completed: 2
+Intelligent staff 1 finished reviewing the logbook at time 59 Operations completed: 2
+Intelligent staff 1 began reviewing the logbook at time 60 Operations completed: 2
+Intelligent staff 2 began reviewing the logbook at time 61 Operations completed: 2
+Intelligent staff 1 finished reviewing the logbook at time 61 Operations completed: 2
+Operative 11 has completed document recreation at TS4 at time 65
+Unit 3 with Operative id 15 has completed document recreation phase at time 65
+Intelligent staff 1 began reviewing the logbook at time 65 Operations completed: 2
+Intelligent staff 2 finished reviewing the logbook at time 66 Operations completed: 2
+Intelligent staff 1 finished reviewing the logbook at time 66 Operations completed: 2
+Unit 3 with leader Operative id 15 has completed intelligent distribution at time 69
+Intelligent staff 1 began reviewing the logbook at time 69 Operations completed: 3
+Intelligent staff 2 began reviewing the logbook at time 69 Operations completed: 3
+Intelligent staff 2 finished reviewing the logbook at time 70 Operations completed: 3
+Intelligent staff 1 finished reviewing the logbook at time 72 Operations completed: 3

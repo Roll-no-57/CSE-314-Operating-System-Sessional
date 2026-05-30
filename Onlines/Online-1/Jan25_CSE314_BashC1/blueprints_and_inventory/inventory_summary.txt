@@ -1,0 +1,15 @@
+bolt: 1
+cable: 5
+circuit: 3
+drill: 3
+gear: 3
+hinge: 2
+lever: 1
+lock: 2
+motor: 1
+panel: 2
+pump: 6
+screw: 4
+sensor: 8
+valve: 4
+wheel: 3
